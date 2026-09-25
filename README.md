@@ -11,7 +11,7 @@ We are a team of 5 collaborative members working on this project:
 - **Bhoomi Choudhary** (QA & Testing)
 
 ### 🚀 Core Project
-- [agentic-facility-ops-platform]([https://github.com/team-A-springboard/Agentic-FacilityOps-Platform.git]) - The main repository containing our source code, architecture designs, and deployment configurations.
+- [agentic-facility-ops-platform](https://github.com/team-A-springboard/Agentic-FacilityOps-Platform.git) - The main repository containing our source code, architecture designs, and deployment configurations.
 
 ---
 *Created for our team project under the guidance of our project mentor.*
