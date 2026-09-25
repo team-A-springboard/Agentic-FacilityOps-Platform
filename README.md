@@ -1,4 +1,7 @@
-# Agentic FacilityOps AI Platform
+<div align="center">
+  # Agentic FacilityOps AI Platform
+</div>
+
 > **AI-Powered Building Operations & Facility Intelligence System**
 
 ## 📌 Project Overview
