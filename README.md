@@ -1,5 +1,5 @@
 <div align="center">
-  # Agentic FacilityOps AI Platform
+   <h1><em>Agentic FacilityOps AI Platform</h1>
 </div>
 
 > **AI-Powered Building Operations & Facility Intelligence System**
