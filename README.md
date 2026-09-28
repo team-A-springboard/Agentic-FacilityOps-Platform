@@ -1,86 +1,202 @@
-<div align="center">
-   <h1><b>Agentic FacilityOps AI Platform</b></h1>
-</div>
+# Agentic FacilityOps AI Platform
+### Energy Agent + Maintenance Agent + Occupancy Agent + Security Agent
 
-> **AI-Powered Building Operations & Facility Intelligence System**
+A working reference implementation of the Agentic FacilityOps AI Platform's
+**Energy Agent**, **Maintenance Agent**, **Occupancy Agent**, and **Security
+Agent** — each with live dashboards, a REST API, and a realistic seeded
+dataset (4 facilities, 23 assets, 8 weeks of hourly energy readings, daily
+equipment sensor readings, 6-hourly occupancy readings across 6 zones per
+facility, and 35–60 security events per facility).
 
-## 📌 Project Overview
-Large modern facilities (corporate offices, IT parks, universities, and hospitals) generate massive amounts of operational data from IoT sensors, HVAC systems, access control, and maintenance logs. Facility managers frequently battle rising energy costs, delayed maintenance, inefficient space utilization, and security incidents.
-
-This platform deploys a network of **multiple autonomous AI agents** that continuously monitor facility operations, optimize resource utilization, predict maintenance requirements, improve building security, and drastically reduce operational costs.
-
----
-
-## 🤖 Implemented Modules & Agent Architecture
-
-### 1. Energy Agent
-* Monitors electricity, water, and utility consumption.
-* Detects energy wastage patterns and analyzes HVAC efficiency.
-* Optimizes lighting schedules and forecasts future energy demand.
-
-### 2. Maintenance Agent
-* Monitors equipment health and detects abnormal behavior.
-* Tracks asset lifecycles and predicts maintenance requirements to reduce downtime.
-* Automatically generates maintenance work orders.
-
-### 3. Occupancy Agent
-* Monitors room/building occupancy and analyzes space utilization.
-* Detects overcrowding conditions and optimizes workspace allocation.
-* Generates occupancy heatmaps and forecasts facility usage patterns.
-
-### 4. Security Agent
-* Monitors access control systems and detects unauthorized access attempts.
-* Analyzes CCTV events and tracks visitor movement.
-* Generates real-time security alerts to support incident investigations.
-
-### 5. Cost Optimization Agent
-* Analyzes operational expenditures to identify cost-saving opportunities.
-* Optimizes vendor utilization and monitors budget compliance.
-* Recommends resource allocation improvements and generates ROI reports.
-
-### 6. Facility Analytics & Intelligence Engine
-* Aggregates real-time insights from all 5 active agents.
-* Generates comprehensive facility health scores and performs anomaly detection.
+This covers **Milestones 1–3** of the project spec (Energy Intelligence,
+Predictive Maintenance, and Occupancy & Security Intelligence). Milestone 4
+(Cost Optimization Agent + executive dashboards + cross-agent orchestration)
+remains a "Coming Soon" card on the overview page.
 
 ---
 
-## 💻 System Interfaces & Automation
+## What's implemented
 
-### Dashboard & Reporting Module
-* **Facility Operations Dashboard:** Centralized high-level visibility.
-* **Agent Viewports:** Specialized dashboards for Energy, Maintenance, Security, and Occupancy tracking.
-* **Executive Reporting Dashboard:** For long-term sustainability and energy efficiency reporting.
+### ⚡ Energy Agent
+- Integrates simulated utility/IoT electricity & water usage data
+- Consumption analytics (totals, cost estimate, carbon estimate)
+- **Anomaly detection** using z-score statistics over electricity usage
+- **HVAC efficiency analysis** vs. lighting/equipment/other load
+- **Lighting schedule optimization** — flags overnight (22:00–06:00) waste
+- **Energy-saving recommendations** generated from the above analytics
+- **7-day demand forecast** (weighted moving average + trend)
+- Live dashboard with KPIs, a consumption chart, a load-distribution donut
+  chart, a consumption-vs-anomalies chart, a forecast chart, and
+  recommendation cards
 
-### Alert & Automation Module
-* Multi-channel notification delivery via **Email Alerts** and **SMS Notifications**.
-* Direct enterprise collaboration via **Teams/Slack Integration**.
-* Automated escalation workflows and instantaneous maintenance ticket creation.
+### 🔧 Maintenance Agent
+- Ingests simulated asset sensor data (vibration, temperature, runtime hours)
+- **Equipment health scoring** (0–100) from vibration/temperature penalties
+- **Failure-risk prediction** — linear trend extrapolation to estimate days
+  until an asset crosses a critical vibration threshold
+- **Asset lifecycle tracking** (age vs. expected life, % lifecycle used)
+- **Auto-generated work orders** for Warning/Critical assets, prioritized
+  and due-dated
+- Live dashboard with KPIs, a per-asset health bar chart, a health
+  distribution donut chart, and a work-order queue
+
+### 👥 Occupancy Agent *(Milestone 3)*
+- Monitors per-zone occupancy counts against capacity (Office Floors,
+  Meeting Rooms, Common Areas, Parking Areas, Cafeteria, Lobby)
+- **Zone utilization analytics** — average & peak utilization per zone,
+  classified Balanced / Overcrowded / Underused
+- **Overcrowding detection** — flags any reading at ≥90% of zone capacity
+- **Occupancy heatmap** — average utilization by weekday × time-of-day
+- **Workspace allocation recommendations** — pairs overcrowded zones with
+  underused ones and suggests reallocation
+- **7-day usage forecast** (weighted moving average + trend, same method
+  as the Energy Agent's demand forecast)
+- Live dashboard with KPIs, a zone-utilization bar chart, a forecast chart,
+  a color-coded heatmap grid, zone/overcrowding detail tables, and
+  recommendation cards
+
+### 🛡️ Security Agent *(Milestone 3)*
+- Ingests simulated access-control / CCTV event data (Unauthorized Access
+  Attempt, Tailgating, After-Hours Access, Forced Door Alarm, Badge
+  Mismatch, CCTV Motion) with Low/Medium/High/Critical severity
+- **Severity distribution** analytics across all monitored events
+- **Zone risk ranking** — ranks zones by critical/high event counts to
+  surface hotspots
+- **Unauthorized-access trend** — daily count of unauthorized-access-type
+  events, for spotting spikes
+- **Auto-generated security alerts** — escalates zones with critical events
+  or elevated event volume, and flags unauthorized-access spikes, to
+  support incident investigation
+- Live dashboard with KPIs, a severity donut chart, a stacked zone-risk bar
+  chart, an unauthorized-access trend line, a recent-events table, and
+  alert cards
+
+All four agents share a common SQLite database whose schema matches the ER
+diagram in the project spec (`facilities`, `assets`, `energy_usage`,
+`maintenance_records`, `occupancy_records`, `security_events`, plus
+`cost_reports` and `alerts` tables reserved for the Cost Optimization Agent).
 
 ---
 
-## 📅 Roadmap & Evaluation Criteria
+## Project structure
 
-### 🟢 Milestone 1 (Weeks 1–2): Energy Intelligence & Monitoring
-* **Deliverables:** Utility/IoT data integration, Energy Agent build, and monitoring dashboard.
-* **Success Metric:** Energy anomaly detection accuracy $\ge$ 85%.
-
-### 🔵 Milestone 2 (Weeks 3–4): Predictive Maintenance System
-* **Deliverables:** Equipment health scoring engine and predictive maintenance scheduling.
-* **Success Metric:** Functional asset monitoring and successful maintenance ticket generation.
-
-### 🟡 Milestone 3 (Weeks 5–6): Occupancy & Security Intelligence
-* **Deliverables:** Occupancy analytics implementation and access monitoring workflows.
-* **Success Metric:** Occupancy forecasting accuracy $\ge$ 80% with verified security alert workflows.
-
-### 🔴 Milestone 4 (Weeks 7–8): Cost Optimization & Enterprise Deployment
-* **Deliverables:** Cross-agent orchestration, executive dashboards, and production deployment.
-* **Success Metric:** Full end-to-end system live with actionable operational cost reduction insights.
+```
+agentic-facilityops/
+├── app.py                        # Flask app: page routes + REST API
+├── requirements.txt
+├── agents/
+│   ├── energy_agent.py           # Energy Agent logic
+│   ├── maintenance_agent.py      # Maintenance Agent logic
+│   ├── occupancy_agent.py        # Occupancy Agent logic
+│   └── security_agent.py         # Security Agent logic
+├── database/
+│   ├── schema.sql                # Full ER-diagram schema
+│   └── seed_data.py              # Generates 8 weeks of realistic demo data
+├── templates/
+│   ├── index.html                # Overview / module launcher
+│   ├── energy_dashboard.html
+│   ├── maintenance_dashboard.html
+│   ├── occupancy_dashboard.html
+│   └── security_dashboard.html
+└── static/
+    ├── css/style.css             # Light theme
+    └── js/
+        ├── chart-loader.js       # Resilient multi-CDN Chart.js loader
+        ├── energy_dashboard.js
+        ├── maintenance_dashboard.js
+        ├── occupancy_dashboard.js
+        └── security_dashboard.js
+```
 
 ---
 
-## 👥 Contributors (Team A)
-* **TeamA-Member1** - Project Management & System Orchestration
-* **TeamA-Member2** - Backend & Agentic Workflows
-* **TeamA-Member3** - Frontend & UI/UX Engineering
-* **TeamA-Member4** - DevOps & Infrastructure
-* **TeamA-Member5** - Data Pipelines & Quality Assurance
+## Setup & run
+
+Requires Python 3.9+.
+
+```bash
+cd agentic-facilityops
+pip install -r requirements.txt
+
+# Seed the demo database (4 facilities, 23 assets, ~8 weeks of data)
+python database/seed_data.py
+
+# Start the app
+python app.py
+```
+
+Then open **http://localhost:5000** in your browser.
+
+- `/` — overview and module launcher
+- `/energy` — Energy Agent dashboard
+- `/maintenance` — Maintenance Agent dashboard
+- `/occupancy` — Occupancy Agent dashboard
+- `/security` — Security Agent dashboard
+
+The database is also auto-seeded on first run if `facilityops.db` doesn't
+exist yet, so `python app.py` alone works too.
+
+---
+
+## REST API reference
+
+### Energy Agent
+| Endpoint | Description |
+|---|---|
+| `GET /api/energy/summary?facility_id=&days=` | Total kWh/water, cost, efficiency score, carbon estimate |
+| `GET /api/energy/timeseries?facility_id=&days=` | Daily electricity/water series for charting |
+| `GET /api/energy/load-distribution?facility_id=&days=` | HVAC/lighting/equipment/other load split |
+| `GET /api/energy/anomalies?facility_id=&days=` | Z-score anomaly list + detection accuracy |
+| `GET /api/energy/forecast?facility_id=` | 7-day demand forecast |
+| `GET /api/energy/recommendations?facility_id=&days=` | AI-generated efficiency recommendations |
+
+### Maintenance Agent
+| Endpoint | Description |
+|---|---|
+| `GET /api/maintenance/summary?facility_id=` | Assets monitored, avg health, predicted failures, health distribution |
+| `GET /api/maintenance/assets?facility_id=` | Per-asset health score, trend, risk band, days-to-critical |
+| `GET /api/maintenance/work-orders?facility_id=` | Auto-generated, prioritized work orders |
+| `GET /api/maintenance/asset/<asset_id>` | Full detail + sensor history for one asset |
+
+### Occupancy Agent
+| Endpoint | Description |
+|---|---|
+| `GET /api/occupancy/summary?facility_id=&days=` | Occupancy rate, active occupants, overcrowding count, busiest zone |
+| `GET /api/occupancy/zones?facility_id=&days=` | Per-zone avg/peak utilization, capacity, status |
+| `GET /api/occupancy/heatmap?facility_id=&days=` | Weekday × time-of-day average utilization matrix |
+| `GET /api/occupancy/overcrowding?facility_id=&days=` | Readings at/above 90% zone capacity |
+| `GET /api/occupancy/forecast?facility_id=` | 7-day occupancy forecast |
+| `GET /api/occupancy/recommendations?facility_id=&days=` | AI-generated workspace allocation recommendations |
+
+### Security Agent
+| Endpoint | Description |
+|---|---|
+| `GET /api/security/summary?facility_id=&days=` | Total events, unauthorized-access count, critical events, zones flagged |
+| `GET /api/security/events?facility_id=&days=` | Recent raw event list |
+| `GET /api/security/severity-distribution?facility_id=&days=` | % of events by severity |
+| `GET /api/security/zone-risk?facility_id=&days=` | Zones ranked by critical/high event counts |
+| `GET /api/security/unauthorized-trend?facility_id=&days=` | Daily unauthorized-access-type event counts |
+| `GET /api/security/alerts?facility_id=&days=` | Auto-generated, prioritized security alerts |
+
+`facility_id` is optional on every endpoint — omit it to aggregate across
+all facilities.
+
+---
+
+## Notes on the demo data
+
+`database/seed_data.py` generates 8 weeks of synthetic-but-realistic data:
+daily/weekly load curves for energy (~2% injected consumption spikes for
+anomaly testing), a subset of assets deliberately trending toward failure,
+6-hourly occupancy readings per zone with realistic weekday/weekend and
+peak-hour curves, and 35–60 randomly-severity-weighted security events per
+facility. Re-run it any time to reset the dataset (uses a fixed random seed
+for reproducibility).
+
+## Extending the platform
+
+The schema already includes `cost_reports` and `alerts` tables, and the
+front-end nav has a placeholder card for the Cost Optimization Agent
+(Milestone 4) — follow the same `agents/<name>_agent.py` +
+`/api/<name>/...` + dashboard template pattern used here to build it out,
+along with cross-agent orchestration and executive dashboards.
