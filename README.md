@@ -97,31 +97,49 @@ diagram in the project spec (`facilities`, `assets`, `energy_usage`,
 ## Project structure
 
 ```
-agentic-facilityops/
-├── app.py                        # Flask app: page routes + REST API
-├── requirements.txt
-├── agents/
-│   ├── energy_agent.py           # Energy Agent logic
-│   ├── maintenance_agent.py      # Maintenance Agent logic
-│   ├── occupancy_agent.py        # Occupancy Agent logic
-│   └── security_agent.py         # Security Agent logic
-├── database/
-│   ├── schema.sql                # Full ER-diagram schema
-│   └── seed_data.py              # Generates 8 weeks of realistic demo data
-├── templates/
-│   ├── index.html                # Overview / module launcher
+Agentic-FacilityOps-Platform/
+├── agents
+│   ├── __init__.py
+│   ├── cost_agent.py
+│   ├── energy_agent.py
+│   ├── intelligence_engine.py
+│   ├── maintenance_agent.py
+│   ├── occupancy_agent.py
+│   └── security_agent.py
+├── database
+│   ├── __init__.py
+│   ├── cost_optimization_dataset.csv
+│   ├── load_cost_dataset.py
+│   ├── schema.sql
+│   └── seed_data.py
+├── static
+│   ├── css
+│   │   └── style.css
+│   └── js
+│       ├── vendor
+│       │   └── chart.umd.min.js
+│       ├── chart-loader.js
+│       ├── cost_dashboard.js
+│       ├── energy_dashboard.js
+│       ├── executive_dashboard.js
+│       ├── maintenance_dashboard.js
+│       ├── occupancy_dashboard.js
+│       └── security_dashboard.js
+├── templates
+│   ├── cost_dashboard.html
 │   ├── energy_dashboard.html
+│   ├── executive_dashboard.html
+│   ├── index.html
+│   ├── login.html
 │   ├── maintenance_dashboard.html
 │   ├── occupancy_dashboard.html
 │   └── security_dashboard.html
-└── static/
-    ├── css/style.css             # Light theme
-    └── js/
-        ├── chart-loader.js       # Resilient multi-CDN Chart.js loader
-        ├── energy_dashboard.js
-        ├── maintenance_dashboard.js
-        ├── occupancy_dashboard.js
-        └── security_dashboard.js
+├── .gitignore
+├── app.py
+├── canvas.png
+├── LICENSE
+├── README.md
+└── requirements.txt
 ```
 
 ---
