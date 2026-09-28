@@ -1,4 +1,20 @@
+<div align="center">
+
+<img src="./canvas.png" alt="Agentic FacilityOps AI Platform Banner" width="100%" />
+
 # Agentic FacilityOps AI Platform
+
+**AI-Powered Building Operations Agent Network**
+
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white)](https://www.chartjs.org/)
+
+</div>
+
+---
+
 ### Energy Agent + Maintenance Agent + Occupancy Agent + Security Agent
 
 A working reference implementation of the Agentic FacilityOps AI Platform's
