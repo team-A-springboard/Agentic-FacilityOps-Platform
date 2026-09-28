@@ -1,0 +1,53 @@
+# --- Virtual environments ---
+venv/
+.venv/
+env/
+ENV/
+
+# --- Python bytecode / caches ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Packaging / build artifacts ---
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# --- Generated SQLite database (recreated by database/seed_data.py or on first run of app.py) ---
+facilityops.db
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# --- Secrets / local config (app reads FACILITYOPS_SECRET_KEY, _USERNAME, _PASSWORD from env) ---
+.env
+.env.*
+!.env.example
+
+# --- Flask ---
+instance/
+.webassets-cache
+
+# --- Logs ---
+*.log
+
+# --- Testing / coverage ---
+.coverage
+htmlcov/
+.tox/
+
+# --- Editors / IDEs ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
