@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cost Optimization Agent · Agentic FacilityOps</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/chart-loader.js') }}"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">FO</div>
+      <h1>Agentic FacilityOps</h1>
+      <p>Building Operations Agent Network</p>
+    </div>
+    <nav class="nav">
+      <a href="/">Overview</a>
+      <a href="/energy">Energy Agent</a>
+      <a href="/maintenance">Maintenance Agent</a>
+      <a href="/occupancy">Occupancy Agent</a>
+      <a href="/security">Security Agent</a>
+      <a href="/cost" class="active">Cost Agent</a>
+      <a href="/executive">Executive Dashboard</a>
+    </nav>
+    <a href="/logout" class="logout-link">Sign out</a>
+    <div class="sidebar-footer">
+      <span class="status-dot"></span>System live · Milestone 4 dataset
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="titles">
+        <h2>💰 Cost Optimization Agent</h2>
+        <p>Operational expenditure analysis, vendor utilization, budget compliance &amp; ROI reporting</p>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <span class="agent-pill"><span class="status-dot"></span>Live Monitoring</span>
+        <select id="facilitySelect" class="select-facility">
+          <option value="">All Facilities (Portfolio)</option>
+          {% for f in cost_facilities %}
+          <option value="{{ f.facility_id }}">{{ f.facility_id }} — {{ f.facility_type }}</option>
+          {% endfor %}
+        </select>
+        <select id="monthsSelect" class="select-facility" style="min-width:120px;">
+          <option value="3">Last 3 months</option>
+          <option value="6">Last 6 months</option>
+          <option value="12" selected>Last 12 months</option>
+          <option value="24">Last 24 months</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi cool"><div class="label">Total Operational Cost</div><div class="value" id="kpiCost">&mdash;</div></div>
+      <div class="kpi good"><div class="label">Potential Savings</div><div class="value" id="kpiSavings">&mdash;</div></div>
+      <div class="kpi warn"><div class="label">Cost Reduction Opportunity</div><div class="value" id="kpiReduction">&mdash;</div></div>
+      <div class="kpi cool"><div class="label">Avg ROI</div><div class="value" id="kpiRoi">&mdash;</div></div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Operational Cost vs Budget</h3>
+          <span class="tag">MONTHLY TREND</span>
+        </div>
+        <div class="chart-box chart-box-xl"><canvas id="trendChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Cost Distribution</h3>
+          <span class="tag">BY CATEGORY</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="breakdownChart"></canvas></div>
+        <div id="costBreakdown" style="margin-top:14px;"><p class="loading-note">Loading&hellip;</p></div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:18px;">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Top Facilities by Savings Opportunity</h3>
+          <span class="tag">PORTFOLIO-WIDE</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="rankingChart"></canvas></div>
+        <table style="margin-top:14px;">
+          <thead><tr><th>Facility</th><th>Type</th><th>Potential Savings</th><th>Cost Variance</th><th>Avg ROI</th></tr></thead>
+          <tbody id="rankingTable"><tr><td colspan="5" class="loading-note">Loading&hellip;</td></tr></tbody>
+        </table>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Vendor Utilization</h3>
+          <span class="tag">VENDOR ANALYSIS</span>
+        </div>
+        <div id="vendorPanel"><p class="loading-note">Loading&hellip;</p></div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:18px;">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Budget Compliance</h3>
+          <span class="tag" id="complianceTag">&mdash;</span>
+        </div>
+        <div class="chart-box"><canvas id="complianceChart"></canvas></div>
+        <table style="margin-top:14px;">
+          <thead><tr><th>Facility</th><th>Month</th><th>Variance</th></tr></thead>
+          <tbody id="varianceTable"><tr><td colspan="3" class="loading-note">Loading&hellip;</td></tr></tbody>
+        </table>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Cost-Saving Recommendations</h3>
+          <span class="tag" id="recCountTag">COST AGENT</span>
+        </div>
+        <div id="recommendations"><p class="loading-note">Loading&hellip;</p></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>loadDashboardScriptAfterChart("{{ url_for('static', filename='js/cost_dashboard.js') }}");</script>
+</body>
+</html>

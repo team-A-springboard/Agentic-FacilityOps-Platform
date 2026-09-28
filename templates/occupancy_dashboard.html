@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Occupancy Agent · Agentic FacilityOps</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/chart-loader.js') }}"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">FO</div>
+      <h1>Agentic FacilityOps</h1>
+      <p>Building Operations Agent Network</p>
+    </div>
+    <nav class="nav">
+      <a href="/">Overview</a>
+      <a href="/energy">Energy Agent</a>
+      <a href="/maintenance">Maintenance Agent</a>
+      <a href="/occupancy" class="active">Occupancy Agent</a>
+      <a href="/security">Security Agent</a>
+      <a href="/cost">Cost Agent</a>
+      <a href="/executive">Executive Dashboard</a>
+    </nav>
+    <a href="/logout" class="logout-link">Sign out</a>
+    <div class="sidebar-footer">
+      <span class="status-dot"></span>System live · seeded demo data
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="titles">
+        <h2>👥 Occupancy Agent</h2>
+        <p>Space utilization analytics, overcrowding detection &amp; workspace allocation insights</p>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <span class="agent-pill"><span class="status-dot"></span>Live Monitoring</span>
+        <select id="facilitySelect" class="select-facility">
+          <option value="">All Facilities</option>
+          {% for f in facilities %}
+          <option value="{{ f.facility_id }}">{{ f.facility_name }}</option>
+          {% endfor %}
+        </select>
+        <select id="daysSelect" class="select-facility" style="min-width:120px;">
+          <option value="7">Last 7 days</option>
+          <option value="14" selected>Last 14 days</option>
+          <option value="30">Last 30 days</option>
+          <option value="56">Last 56 days</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi cool"><div class="label">Occupancy Rate</div><div class="value" id="kpiRate">&mdash;</div></div>
+      <div class="kpi good"><div class="label">Active Occupants</div><div class="value" id="kpiVisitors">&mdash;</div></div>
+      <div class="kpi critical"><div class="label">Overcrowding Events</div><div class="value" id="kpiOvercrowd">&mdash;</div></div>
+      <div class="kpi warn"><div class="label">Busiest Zone</div><div class="value" id="kpiBusiest" style="font-size:16px;">&mdash;</div></div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Zone Utilization</h3>
+          <span class="tag" id="zoneCountTag">&mdash;</span>
+        </div>
+        <div class="chart-box chart-box-xl"><canvas id="zoneUtilChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>7-Day Usage Forecast</h3>
+          <span class="tag">WEIGHTED TREND MODEL</span>
+        </div>
+        <div class="chart-box chart-box-xl"><canvas id="forecastChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:18px;">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Occupancy Rate Trend</h3>
+          <span class="tag">DAILY AVERAGE</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="occupancyTrendChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Current Occupancy Share</h3>
+          <span class="tag">BY ZONE</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="zoneShareChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <div class="panel-header">
+        <h3>Occupancy Heatmap</h3>
+        <span class="tag">WEEKDAY &times; TIME OF DAY</span>
+      </div>
+      <div id="heatmap"><p class="loading-note">Loading&hellip;</p></div>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <div class="panel-header">
+        <h3>Zone Utilization Detail</h3>
+        <span class="tag">DETAIL</span>
+      </div>
+      <table>
+        <thead><tr><th>Zone</th><th>Avg Utilization</th><th>Peak Utilization</th><th>Capacity</th><th>Current</th><th>Status</th></tr></thead>
+        <tbody id="zoneTable"><tr><td colspan="6" class="loading-note">Loading&hellip;</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <div class="panel-header">
+        <h3>Recent Overcrowding Events</h3>
+        <span class="tag" id="overcrowdCountTag">OCCUPANCY AGENT</span>
+      </div>
+      <table>
+        <thead><tr><th>Timestamp</th><th>Zone</th><th>Occupancy</th><th>Capacity</th><th>Utilization</th></tr></thead>
+        <tbody id="overcrowdTable"><tr><td colspan="5" class="loading-note">Loading&hellip;</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <div class="panel-header">
+        <h3>AI-Generated Allocation Recommendations</h3>
+        <span class="tag">OCCUPANCY AGENT</span>
+      </div>
+      <div id="recommendations"><p class="loading-note">Loading&hellip;</p></div>
+    </div>
+  </main>
+</div>
+
+<script>loadDashboardScriptAfterChart("{{ url_for('static', filename='js/occupancy_dashboard.js') }}");</script>
+</body>
+</html>

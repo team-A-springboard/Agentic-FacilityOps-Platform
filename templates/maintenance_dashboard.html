@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Maintenance Agent · Agentic FacilityOps</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/chart-loader.js') }}"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">FO</div>
+      <h1>Agentic FacilityOps</h1>
+      <p>Building Operations Agent Network</p>
+    </div>
+    <nav class="nav">
+      <a href="/">Overview</a>
+      <a href="/energy">Energy Agent</a>
+      <a href="/maintenance" class="active">Maintenance Agent</a>
+      <a href="/occupancy">Occupancy Agent</a>
+      <a href="/security">Security Agent</a>
+      <a href="/cost">Cost Agent</a>
+      <a href="/executive">Executive Dashboard</a>
+    </nav>
+    <a href="/logout" class="logout-link">Sign out</a>
+    <div class="sidebar-footer">
+      <span class="status-dot"></span>System live · seeded demo data
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="titles">
+        <h2>🔧 Maintenance Agent</h2>
+        <p>Equipment health scoring, failure-risk prediction &amp; auto-generated work orders</p>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <span class="agent-pill"><span class="status-dot"></span>Live Monitoring</span>
+        <select id="facilitySelect" class="select-facility">
+          <option value="">All Facilities</option>
+          {% for f in facilities %}
+          <option value="{{ f.facility_id }}">{{ f.facility_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi cool"><div class="label">Assets Monitored</div><div class="value" id="kpiAssets">&mdash;</div></div>
+      <div class="kpi good"><div class="label">Avg Health Score</div><div class="value" id="kpiHealth">&mdash;</div></div>
+      <div class="kpi critical"><div class="label">Predicted Failures (21d)</div><div class="value" id="kpiFailures">&mdash;</div></div>
+      <div class="kpi warn"><div class="label">Downtime Reduction</div><div class="value" id="kpiDowntime">&mdash;</div></div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Asset Health Scores</h3>
+          <span class="tag" id="assetCountTag">&mdash;</span>
+        </div>
+        <div class="chart-box chart-box-xl"><canvas id="assetHealthChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Equipment Health Distribution</h3>
+          <span class="tag">% OF ASSETS</span>
+        </div>
+        <div class="chart-box"><canvas id="healthDonut"></canvas></div>
+        <div id="healthDistribution" style="margin-top:14px;"><p class="loading-note">Loading&hellip;</p></div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:18px;">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Fleet Health Trend</h3>
+          <span class="tag">AVG VIBRATION &amp; TEMPERATURE</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="fleetTrendChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Assets by Type</h3>
+          <span class="tag">FLEET COMPOSITION</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="assetTypeChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <div class="panel-header">
+        <h3>Asset Health Overview</h3>
+        <span class="tag">DETAIL</span>
+      </div>
+      <table>
+        <thead><tr><th>Asset</th><th>Type</th><th>Health</th><th>Trend</th><th>Status</th><th>Days to Critical</th></tr></thead>
+        <tbody id="assetTable"><tr><td colspan="6" class="loading-note">Loading&hellip;</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <div class="panel-header">
+        <h3>Auto-Generated Work Orders</h3>
+        <span class="tag" id="workOrderCountTag">MAINTENANCE AGENT</span>
+      </div>
+      <table>
+        <thead><tr><th>Priority</th><th>Asset</th><th>Type</th><th>Reason</th><th>Due</th></tr></thead>
+        <tbody id="workOrderTable"><tr><td colspan="5" class="loading-note">Loading&hellip;</td></tr></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script>loadDashboardScriptAfterChart("{{ url_for('static', filename='js/maintenance_dashboard.js') }}");</script>
+</body>
+</html>

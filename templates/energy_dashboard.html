@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Energy Agent · Agentic FacilityOps</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/chart-loader.js') }}"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">FO</div>
+      <h1>Agentic FacilityOps</h1>
+      <p>Building Operations Agent Network</p>
+    </div>
+    <nav class="nav">
+      <a href="/">Overview</a>
+      <a href="/energy" class="active">Energy Agent</a>
+      <a href="/maintenance">Maintenance Agent</a>
+      <a href="/occupancy">Occupancy Agent</a>
+      <a href="/security">Security Agent</a>
+      <a href="/cost">Cost Agent</a>
+      <a href="/executive">Executive Dashboard</a>
+    </nav>
+    <a href="/logout" class="logout-link">Sign out</a>
+    <div class="sidebar-footer">
+      <span class="status-dot"></span>System live · seeded demo data
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="titles">
+        <h2>⚡ Energy Agent</h2>
+        <p>Real-time consumption analytics, anomaly detection &amp; efficiency recommendations</p>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <span class="agent-pill"><span class="status-dot"></span>Live Monitoring</span>
+        <select id="facilitySelect" class="select-facility">
+          <option value="">All Facilities</option>
+          {% for f in facilities %}
+          <option value="{{ f.facility_id }}">{{ f.facility_name }}</option>
+          {% endfor %}
+        </select>
+        <select id="daysSelect" class="select-facility" style="min-width:120px;">
+          <option value="7">Last 7 days</option>
+          <option value="14" selected>Last 14 days</option>
+          <option value="30">Last 30 days</option>
+          <option value="56">Last 56 days</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi cool"><div class="label">Total Energy</div><div class="value" id="kpiTotalEnergy">&mdash;</div></div>
+      <div class="kpi good"><div class="label">Estimated Cost</div><div class="value" id="kpiCost">&mdash;</div></div>
+      <div class="kpi warn"><div class="label">HVAC Efficiency Score</div><div class="value" id="kpiEfficiency">&mdash;</div></div>
+      <div class="kpi" style="border-left-color:#8B7CD6;"><div class="label">Carbon Estimate</div><div class="value" id="kpiCarbon">&mdash;</div></div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Electricity &amp; Water Consumption</h3>
+          <span class="tag" id="chartRangeTag">DAILY TOTALS</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="consumptionChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Load Distribution</h3>
+          <span class="tag">AVG SHARE</span>
+        </div>
+        <div class="chart-box"><canvas id="loadDistChart"></canvas></div>
+        <div id="loadDistribution" style="margin-top:14px;"><p class="loading-note">Loading&hellip;</p></div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:18px;">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Consumption vs. Anomalies</h3>
+          <span class="tag" id="anomalyAccuracyTag">&mdash;</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="anomalyChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>7-Day Demand Forecast</h3>
+          <span class="tag">WEIGHTED TREND MODEL</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="forecastChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <div class="panel-header">
+        <h3>Load Composition Over Time</h3>
+        <span class="tag">HVAC · LIGHTING · EQUIPMENT · OTHER</span>
+      </div>
+      <div class="chart-box chart-box-lg"><canvas id="loadCompositionChart"></canvas></div>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <div class="panel-header">
+        <h3>Flagged Anomalies</h3>
+        <span class="tag">DETAIL</span>
+      </div>
+      <table>
+        <thead><tr><th>Timestamp</th><th>Facility</th><th>Usage (kWh)</th><th>Z-Score</th></tr></thead>
+        <tbody id="anomalyTable"><tr><td colspan="4" class="loading-note">Loading&hellip;</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <div class="panel-header">
+        <h3>AI-Generated Recommendations</h3>
+        <span class="tag">ENERGY AGENT</span>
+      </div>
+      <div id="recommendations"><p class="loading-note">Loading&hellip;</p></div>
+    </div>
+  </main>
+</div>
+
+<script>loadDashboardScriptAfterChart("{{ url_for('static', filename='js/energy_dashboard.js') }}");</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in · Agentic FacilityOps</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-body">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="mark">FO</div>
+        <h1>Agentic FacilityOps</h1>
+        <p>AI-Powered Building Operations &amp; Facility Intelligence</p>
+      </div>
+
+      {% if error %}
+      <div class="login-error">{{ error }}</div>
+      {% endif %}
+
+      <form class="login-form" method="POST" action="{{ url_for('login') }}">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="admin" autocomplete="username" required autofocus>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+
+        <button type="submit" class="login-btn">Sign In</button>
+      </form>
+
+      <div class="login-footer">
+        <span class="status-dot"></span>
+        6 agents live · Energy · Maintenance · Occupancy · Security · Cost · Executive
+      </div>
+    </div>
+  </div>
+</body>
+</html>

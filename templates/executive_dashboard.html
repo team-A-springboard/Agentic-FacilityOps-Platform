@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Executive Dashboard · Agentic FacilityOps</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/chart-loader.js') }}"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">FO</div>
+      <h1>Agentic FacilityOps</h1>
+      <p>Building Operations Agent Network</p>
+    </div>
+    <nav class="nav">
+      <a href="/">Overview</a>
+      <a href="/energy">Energy Agent</a>
+      <a href="/maintenance">Maintenance Agent</a>
+      <a href="/occupancy">Occupancy Agent</a>
+      <a href="/security">Security Agent</a>
+      <a href="/cost">Cost Agent</a>
+      <a href="/executive" class="active">Executive Dashboard</a>
+    </nav>
+    <a href="/logout" class="logout-link">Sign out</a>
+    <div class="sidebar-footer">
+      <span class="status-dot"></span>Facility Intelligence Engine
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="exec-hero">
+      <div class="exec-hero-text">
+        <span class="agent-pill light"><span class="status-dot"></span>Executive View · Cross-Agent Orchestration</span>
+        <h2>🏛️ Facility Intelligence &amp; Executive Dashboard</h2>
+        <p>Aggregated insights from Energy, Maintenance, Occupancy, Security &amp; Cost Optimization agents,
+          blended into one portfolio-wide view.</p>
+        <div class="exec-hero-controls">
+          <select id="facilitySelect" class="select-facility">
+            <option value="">All Facilities</option>
+            {% for f in facilities %}
+            <option value="{{ f.facility_id }}">{{ f.facility_name }}</option>
+            {% endfor %}
+          </select>
+          <button id="downloadReportBtn" class="select-facility exec-report-btn">⬇ Generate Intelligence Report</button>
+        </div>
+      </div>
+      <div class="exec-hero-gauge">
+        <div class="chart-box gauge-box"><canvas id="healthGauge"></canvas></div>
+        <div class="gauge-center">
+          <div class="gauge-value" id="gaugeValue">&mdash;</div>
+          <div class="gauge-label">Facility Health</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi cool"><div class="label">Cost Reduction</div><div class="value" id="kpiCostReduction">&mdash;</div></div>
+      <div class="kpi good"><div class="label">ROI Generated</div><div class="value" id="kpiRoi">&mdash;</div></div>
+      <div class="kpi warn"><div class="label">Potential Savings</div><div class="value" id="kpiSavings">&mdash;</div></div>
+      <div class="kpi" style="border-left-color:#8B7CD6;"><div class="label">Optimizations Identified</div><div class="value" id="kpiOptimizations">&mdash;</div></div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Cross-Agent Domain Scores</h3>
+          <span class="tag">ENERGY · ASSETS · SECURITY · OCCUPANCY</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="domainRadarChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Cost Distribution</h3>
+          <span class="tag">PORTFOLIO · BY CATEGORY</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="costDistChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:18px;">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>12-Month Cost vs. Budget Trend</h3>
+          <span class="tag">PORTFOLIO-WIDE</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="costTrendChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Top Facilities by Savings Opportunity</h3>
+          <span class="tag">TOP 8</span>
+        </div>
+        <div class="chart-box chart-box-lg"><canvas id="rankingChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:18px;">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Budget Compliance</h3>
+          <span class="tag" id="complianceTag">LAST 12 MONTHS</span>
+        </div>
+        <div class="chart-box"><canvas id="complianceChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Facilities Needing Attention</h3>
+          <span class="tag">TOP SAVINGS OPPORTUNITIES</span>
+        </div>
+        <table>
+          <thead><tr><th>Facility</th><th>Type</th><th>Potential Savings</th><th>ROI</th></tr></thead>
+          <tbody id="rankingTable"><tr><td colspan="4" class="loading-note">Loading&hellip;</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <div class="panel-header">
+        <h3>Consolidated Recommendations</h3>
+        <span class="tag" id="recCountTag">ALL AGENTS</span>
+      </div>
+      <div id="recommendations"><p class="loading-note">Loading&hellip;</p></div>
+    </div>
+  </main>
+</div>
+
+<script>loadDashboardScriptAfterChart("{{ url_for('static', filename='js/executive_dashboard.js') }}");</script>
+</body>
+</html>

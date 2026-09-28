@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Agentic FacilityOps AI Platform</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">FO</div>
+      <h1>Agentic FacilityOps</h1>
+      <p>Building Operations Agent Network</p>
+    </div>
+    <nav class="nav">
+      <a href="/" class="active">Overview</a>
+      <a href="/energy">Energy Agent</a>
+      <a href="/maintenance">Maintenance Agent</a>
+      <a href="/occupancy">Occupancy Agent</a>
+      <a href="/security">Security Agent</a>
+      <a href="/cost">Cost Agent</a>
+      <a href="/executive">Executive Dashboard</a>
+    </nav>
+    <a href="/logout" class="logout-link">Sign out</a>
+    <div class="sidebar-footer">
+      <span class="status-dot"></span>System live · seeded demo data
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="hero">
+      <h2>AI-Powered Building Operations & Facility Intelligence</h2>
+      <p>Autonomous agents continuously monitor energy, maintenance, occupancy, security and cost
+        operations across your facility portfolio — six agents are live below.</p>
+    </div>
+
+    <h3 style="font-size:13px;color:var(--text-muted);letter-spacing:.2px;margin-bottom:4px;">MODULES</h3>
+    <div class="module-grid">
+      <a href="/energy" class="module-card">
+        <div class="m-tag">LIVE</div>
+        <h4>⚡ Energy Agent</h4>
+        <p>Consumption analytics, anomaly detection, HVAC efficiency, lighting optimization, demand forecasting.</p>
+      </a>
+      <a href="/maintenance" class="module-card">
+        <div class="m-tag">LIVE</div>
+        <h4>🔧 Maintenance Agent</h4>
+        <p>Equipment health scoring, failure-risk prediction, asset lifecycle tracking, auto-generated work orders.</p>
+      </a>
+      <a href="/occupancy" class="module-card">
+        <div class="m-tag">LIVE</div>
+        <h4>👥 Occupancy Agent</h4>
+        <p>Zone utilization analytics, overcrowding detection, occupancy heatmaps, workspace reallocation.</p>
+      </a>
+      <a href="/security" class="module-card">
+        <div class="m-tag">LIVE</div>
+        <h4>🛡️ Security Agent</h4>
+        <p>Access control monitoring, unauthorized-access detection, zone risk analysis, auto-generated alerts.</p>
+      </a>
+      <a href="/cost" class="module-card">
+        <div class="m-tag">LIVE</div>
+        <h4>💰 Cost Optimization Agent</h4>
+        <p>Operational expenditure analysis, vendor utilization, budget compliance, ROI reporting.</p>
+      </a>
+      <a href="/executive" class="module-card">
+        <div class="m-tag">LIVE</div>
+        <h4>🏛️ Executive Dashboard</h4>
+        <p>Cross-agent orchestration, facility health scoring, consolidated recommendations, intelligence reports.</p>
+      </a>
+    </div>
+
+    <div class="panel facility-list">
+      <div class="panel-header">
+        <h3>Facilities in this workspace</h3>
+        <span class="tag">{{ facilities|length }} FACILITIES</span>
+      </div>
+      {% for f in facilities %}
+      <div class="facility-row">
+        <div><span class="f-name">{{ f.facility_name }}</span><span class="f-type">{{ f.facility_type }}</span></div>
+        <div class="f-loc">{{ f.location }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+</div>
+</body>
+</html>
