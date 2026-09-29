@@ -234,3 +234,14 @@ front-end nav has a placeholder card for the Cost Optimization Agent
 (Milestone 4) — follow the same `agents/<name>_agent.py` +
 `/api/<name>/...` + dashboard template pattern used here to build it out,
 along with cross-agent orchestration and executive dashboards.
+
+## Key Project Benefits
+
+The Agentic FacilityOps Platform helps facility teams monitor and manage
+different operational areas through AI-driven insights.
+
+- Real-time facility monitoring
+- Energy and maintenance analysis
+- Occupancy and security monitoring
+- Cost optimization insights
+- AI-based recommendations for better decision-making
